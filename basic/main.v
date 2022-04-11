@@ -2,6 +2,13 @@ module main
 
 import time
 import strconv
+import strutil
+
+interface Any {}
+
+fn return_any(val Any) Any {
+    return val
+}
 
 fn main() {
 	// > v/docs.md at master · vlang/v
@@ -15,7 +22,7 @@ fn main() {
 	value_rune := '\n'
 	value_string := 'test'
 	value_bytes := 'test'.bytes()
-	println('<< primitive >>')
+	println('<< Primitive >>')
 	println('value_int, value_int64, value_float, valueRune, value_string\n$value_int, $value_int8, $value_int64, $value_float64, $value_rune, $value_string\n')
 	println('')
 
@@ -24,14 +31,14 @@ fn main() {
   "aaa", "bbb",
   "ccc": 111
 }'
-	println('<< foundString sequence >>')
+	println('<< String sequence >>')
 	println(value_string2)
 	println('')
 
 	// Cast
 	// > Golangでの文字列・数値変換 - 小野マトペの納豆ペペロンチーノ日記
 	// > http://matope.hatenablog.com/entry/2014/04/22/101127
-	println('<< cast >>')
+	println('<< Cast >>')
 	// FormatIntの第2引数は基数。2なら2進数、16なら16進数になる
 	println('value_int: $value_int    -> value_string: $value_int.str()')
 	println('value_int8: $value_int8   -> value_string: $value_int8.str()')
@@ -53,14 +60,14 @@ fn main() {
 
 	// Pointer
 	value_int_pointer := &value_int
-	println('<< pointer >>')
+	println('<< Pointer >>')
 	println('value_int pointer: $value_int_pointer')
 	println('value_int pointers value: ${*value_int_pointer}')
 	println('')
 
 	// array
 	mut value_int_array := [1, 2, 3]
-	println('<< array >>')
+	println('<< Array >>')
 	println('value_int_array: $value_int_array')
 	value_int_array << 4
 	println('add 4 to value_int_array: $value_int_array')
@@ -89,7 +96,7 @@ fn main() {
 	println('')
 
 	// slice
-	println('<< slice >>')
+	println('<< Slice >>')
 	array_strings := ['john', 'mike', 'bob']
 	println('array_strings: $array_strings')
 	println('array_strings[0..2]: ${array_strings[0..2]}')
@@ -98,6 +105,7 @@ fn main() {
 	println('')
 
 	// map
+	mut map_values_string_string_empty := map[string]string{}
 	mut map_values_string_string := {
 		'aaa': 'aaa'
 		'bbb': 'aaa'
@@ -108,7 +116,8 @@ fn main() {
 		'bbb': 2
 		'ccc': 3
 	}
-	println('<< map >>')
+	println('<< Map >>')
+	println('map_values_string_string_empty: $map_values_string_string_empty')
 	println('map_values_string_string: $map_values_string_string')
 	println('map_values_string_string[\'aaa\']: ${map_values_string_string['aaa']}')
 	println('map_values_string_string[\'xxx\']: ${map_values_string_string['xxx']}')
@@ -119,18 +128,52 @@ fn main() {
 	println('add ddd:ddd to map_values_string_string: $map_values_string_string')
 	println('map_values_string_int: $map_values_string_int')
 	println('type of map_values_string_int: ${typeof(map_values_string_int).name}')
+	// 最新版でのみ対応されてる
+	// > passing int variable as "any" interface value causes error · Issue #13787 · vlang/v  
+  // > https://github.com/vlang/v/issues/13787  
+	mut map_values_string_any := map[string]Any{}
+	map_values_string_any['aaa'] = return_any(200)
+	map_values_string_any['bbb'] = return_any('bbb')
+	map_values_string_any['ccc'] = return_any(true)
+	map_values_string_any['ddd'] = return_any([1,2,3])
+	map_values_string_any['eee'] = return_any(map[string]string{})
+	println('map_values_string_any: $map_values_string_any')
+	println('type of map_values_string_any: ${typeof(map_values_string_any).name}')
 	println('')
 
-	// for
-	println("<< for >>")
-	println("value_int_array size: ${value_int_array.len}")
+	// For
+	println('<< For loop >>')
+	println('value_int_array size: $value_int_array.len')
 	for _, v in value_int_array {
 		println(v)
 	}
-	println("map_values_string_string size: ${map_values_string_string.len}")
+	println('map_values_string_string size: $map_values_string_string.len')
 	for k, v in map_values_string_string {
-		println(k + ":" + v)
+		println(k + ':' + v)
 	}
 	println('')
 
+	// If
+	value1 := 'a'
+	mut value2 := 'a'
+	mut if_result := if value1 == value2 { 'same value' } else { 'different value' }
+	println('<< If >>')
+	println('value1: $value1')
+	println('value2: $value2')
+	println('value1 == value2 : $if_result')
+	value2 = 'b'
+	if_result = if value1 == value2 { 'same value' } else { 'different value' }
+	println('value1: $value1')
+	println('value2: $value2')
+	println('value1 == value2 : $if_result')
+	// value3 := 1
+	// if_result = if value1 == value3 { 'same value' } else { 'not same value' } // infix expr: cannot use `int` (right expression) as `string`
+	if_result = if typeof(value1).name == 'string' { 'value1 is string' } else { 'value1 is not string' }
+	println(' value1 is string : $if_result')
+	println('')
+
+	// Call module function
+	println('<< Function >>')
+	println(strutil.to_json('aaa', 'bbb'))
+	println('')
 }
