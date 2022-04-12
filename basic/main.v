@@ -3,11 +3,12 @@ module main
 import time
 import strconv
 import strutil
+import mystruct
 
 interface Any {}
 
 fn return_any(val Any) Any {
-    return val
+	return val
 }
 
 fn main() {
@@ -129,13 +130,13 @@ fn main() {
 	println('map_values_string_int: $map_values_string_int')
 	println('type of map_values_string_int: ${typeof(map_values_string_int).name}')
 	// 最新版でのみ対応されてる
-	// > passing int variable as "any" interface value causes error · Issue #13787 · vlang/v  
-  // > https://github.com/vlang/v/issues/13787  
+	// > passing int variable as "any" interface value causes error · Issue #13787 · vlang/v
+	// > https://github.com/vlang/v/issues/13787
 	mut map_values_string_any := map[string]Any{}
 	map_values_string_any['aaa'] = return_any(200)
 	map_values_string_any['bbb'] = return_any('bbb')
 	map_values_string_any['ccc'] = return_any(true)
-	map_values_string_any['ddd'] = return_any([1,2,3])
+	map_values_string_any['ddd'] = return_any([1, 2, 3])
 	map_values_string_any['eee'] = return_any(map[string]string{})
 	println('map_values_string_any: $map_values_string_any')
 	println('type of map_values_string_any: ${typeof(map_values_string_any).name}')
@@ -168,12 +169,35 @@ fn main() {
 	println('value1 == value2 : $if_result')
 	// value3 := 1
 	// if_result = if value1 == value3 { 'same value' } else { 'not same value' } // infix expr: cannot use `int` (right expression) as `string`
-	if_result = if typeof(value1).name == 'string' { 'value1 is string' } else { 'value1 is not string' }
+	if_result = if typeof(value1).name == 'string' {
+		'value1 is string'
+	} else {
+		'value1 is not string'
+	}
 	println(' value1 is string : $if_result')
 	println('')
 
 	// Call module function
-	println('<< Function >>')
+	println('<< Module function >>')
 	println(strutil.to_json('aaa', 'bbb'))
+	// println(strutil.build_string('aaa', 'bbb')) function `strutil.build_string` is private
+	println('')
+
+	// Struct
+	println('<< Struct >>')
+	mut user := mystruct.User{
+		id: 1111
+		name: 'Taro'
+	}
+	println(user)
+	println('set value to partner field ... ')
+	// user.get_partner() => none => exec or block => &mystruct.User{name: 'hanako', id: 2222 } => 'hanako'
+	partner_name1 := user.get_partner() or { &mystruct.User{name: 'hanako', id: 2222 } }.name
+	println(partner_name1)
+	user.set_partner( &mystruct.User{name: 'yoko', id: 2222 } )
+	println(user)
+	// user.get_partner() => &mystruct.User{name: 'yoko', id: 2222 } => 'yoko'
+	partner_name2 := user.get_partner() or { &mystruct.User{name: 'hanako', id: 2222 } }.name
+	println(partner_name2)
 	println('')
 }

@@ -23,3 +23,13 @@ $ ./main
 $ v run main.v
 ```
 
+# Interested issues
+
+> JSON serielization - way to represent null values · Issue #4478 · vlang/v  
+> https://github.com/vlang/v/issues/4478  
+
+> passing int variable as "any" interface value causes error · Issue #13787 · vlang/v  
+> https://github.com/vlang/v/issues/13787  
+
+> support anonymous structure · Issue #12773 · vlang/v  
+> https://github.com/vlang/v/issues/12773  
