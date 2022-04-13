@@ -1,14 +1,17 @@
 module mystruct
 
-// > v/docs.md at master · vlang/v  
-// > https://github.com/vlang/v/blob/master/doc/docs.md#manual-control-for-stack-and-heap  
+//------------------
+// User
+//------------------
+// > v/docs.md at master · vlang/v
+// > https://github.com/vlang/v/blob/master/doc/docs.md#manual-control-for-stack-and-heap
 [heap]
 pub struct User {
 	// private immutable (default)
 	my_number int
 mut:
 	// private mutable
-	age int
+	age     int
 	partner &User = 0
 pub:
 	// public immutable
@@ -25,9 +28,25 @@ pub fn (mut u User) set_partner(partner &User) {
 }
 
 pub fn (u User) get_partner() ?&User {
-  if u.partner == 0 {
+	if u.partner == 0 {
 		return none
 	} else {
 		return u.partner
 	}
+}
+
+//------------------
+// Address
+//------------------
+pub struct Address {
+	// private immutable (default)
+	country string
+pub mut:
+	city City
+}
+
+pub struct City {
+	// private immutable (default)
+	name     string
+	postcode int
 }

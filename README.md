@@ -23,6 +23,12 @@ $ ./main
 $ v run main.v
 ```
 
+# Concerns
+
+- Handling for nullable field in json.
+- Optional fields in struct.
+
+
 # Interested issues
 
 > JSON serielization - way to represent null values · Issue #4478 · vlang/v  

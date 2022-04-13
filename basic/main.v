@@ -4,10 +4,12 @@ import time
 import strconv
 import strutil
 import mystruct
+import json
+// import x.json2
 
 interface Any {}
 
-fn return_any(val Any) Any {
+fn new_any(val Any) Any {
 	return val
 }
 
@@ -133,11 +135,11 @@ fn main() {
 	// > passing int variable as "any" interface value causes error · Issue #13787 · vlang/v
 	// > https://github.com/vlang/v/issues/13787
 	mut map_values_string_any := map[string]Any{}
-	map_values_string_any['aaa'] = return_any(200)
-	map_values_string_any['bbb'] = return_any('bbb')
-	map_values_string_any['ccc'] = return_any(true)
-	map_values_string_any['ddd'] = return_any([1, 2, 3])
-	map_values_string_any['eee'] = return_any(map[string]string{})
+	map_values_string_any['aaa'] = new_any(200)
+	map_values_string_any['bbb'] = new_any('bbb')
+	map_values_string_any['ccc'] = new_any(true)
+	map_values_string_any['ddd'] = new_any([1, 2, 3])
+	map_values_string_any['eee'] = new_any(map[string]string{})
 	println('map_values_string_any: $map_values_string_any')
 	println('type of map_values_string_any: ${typeof(map_values_string_any).name}')
 	println('')
@@ -192,12 +194,45 @@ fn main() {
 	println(user)
 	println('set value to partner field ... ')
 	// user.get_partner() => none => exec or block => &mystruct.User{name: 'hanako', id: 2222 } => 'hanako'
-	partner_name1 := user.get_partner() or { &mystruct.User{name: 'hanako', id: 2222 } }.name
+	partner_name1 := user.get_partner() or { &mystruct.User{
+		name: 'hanako'
+		id: 2222
+	} }.name
 	println(partner_name1)
-	user.set_partner( &mystruct.User{name: 'yoko', id: 2222 } )
+	user.set_partner(&mystruct.User{ name: 'yoko', id: 2222 })
 	println(user)
 	// user.get_partner() => &mystruct.User{name: 'yoko', id: 2222 } => 'yoko'
-	partner_name2 := user.get_partner() or { &mystruct.User{name: 'hanako', id: 2222 } }.name
+	partner_name2 := user.get_partner() or { &mystruct.User{
+		name: 'hanako'
+		id: 2222
+	} }.name
 	println(partner_name2)
+	println('')
+
+	// << anonymous struct >> は検討中
+
+	// Json handling
+	println('<< Json handling >>')
+	mut address := mystruct.Address{
+		country: 'Japan'
+	}
+	address.city = &mystruct.City{
+		name: 'Saitama'
+		postcode: 123456
+	}
+	println(json.encode(address)) 
+	// Error handing function decodes json
+	decode_func := fn (json_address string) mystruct.Address {
+		return json.decode(mystruct.Address, json_address) or {
+			println('Json decode faild. json = $json_address')
+			return mystruct.Address{}
+		}
+	}
+	mut json_address := '{"countryS"}'
+	mut address2 := decode_func(json_address)
+	println(address2)
+	json_address = '{"country":"US"}'
+	address2 = decode_func(json_address)
+	println(address2)
 	println('')
 }
