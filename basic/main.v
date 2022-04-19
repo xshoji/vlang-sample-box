@@ -5,6 +5,10 @@ import strconv
 import strutil
 import mystruct
 import json
+import rand
+import rand.seed
+import crypto.sha256
+import encoding.hex
 // import x.json2
 
 interface Any {}
@@ -235,4 +239,41 @@ fn main() {
 	address2 = decode_func(json_address)
 	println(address2)
 	println('')
+
+	// Create random integer
+	println("<< Random integer >>")
+	create_random_number := fn() int {
+		rand.seed(seed.time_seed_array(2))
+		return rand.intn(1000000000-1) or { 0 } + 1
+	}
+	println(create_random_number())
+	println('')
+
+	// Create random foundString
+	println("<< Random string >>")
+	create_random_string := fn() string {
+		seed := seed.time_seed_32().str()
+		sha_bytes := sha256.sum256(seed.bytes())
+		return hex.encode(sha_bytes)
+	}
+	println(create_random_string())
+	println('')
+
+
+	// DateTime format
+	println("<< Datetime >>")
+	now := time.now()
+	println("format_plane    : ${now}")
+	println("format_ss_micro : ${now.format_ss_micro()}")
+	custom_format_time := now.get_fmt_str(time.FormatDelimiter.slash, time.FormatTime.hhmmss24_milli, time.FormatDate.mmddyyyy)
+	println('format_custom   : ${custom_format_time}')
+	println('')
+
+	// Replace
+	println("<< Replace string >>")
+	mozi := "aaabbbaaaccc"
+	println('original: ${mozi}')
+	println('replace : ${mozi.replace("aaa", "!!!")}')
+	println('')
+
 }

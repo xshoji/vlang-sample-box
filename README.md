@@ -28,6 +28,14 @@ $ v run main.v
 - Handling for nullable field in json.
 - Optional fields in struct.
 
+# References
+
+> v/docs.md at master · vlang/v  
+> https://github.com/vlang/v/blob/master/doc/docs.md  
+
+> builtin ｜ vdoc  
+> https://modules.vlang.io/index.html  
+
 
 # Interested issues
 
