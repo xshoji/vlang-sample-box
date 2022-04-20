@@ -9,6 +9,8 @@ import rand
 import rand.seed
 import crypto.sha256
 import encoding.hex
+import regex
+import os
 // import x.json2
 
 interface Any {}
@@ -83,7 +85,11 @@ fn main() {
 	println('value_int_array[0]: ${value_int_array[0]}')
 	// println('value_int_array[100]: ${value_int_array[100]}') // V panic: array.get: index out of range
 	value_int_array_out_of_range := value_int_array[100] or { 999 }
+	// こうすることで発生するエラーを呼び出し元まで伝達させることができる
+	// https://github.com/vlang/v/blob/master/doc/docs.md#:~:text=The%20same%20optional%20check%20applies%20to%20arrays%3A
+	value_int_array_in_range := value_int_array[1] ?
 	println('value_int_array[100] or { ... }: $value_int_array_out_of_range')
+	println('value_int_array[1] ?: $value_int_array_in_range')
 	println('1 in value_int_array: ${1 in value_int_array}')
 	println('9 in value_int_array: ${9 in value_int_array}')
 	println('value_int_array.len: $value_int_array.len')
@@ -224,7 +230,7 @@ fn main() {
 		name: 'Saitama'
 		postcode: 123456
 	}
-	println(json.encode(address)) 
+	println(json.encode(address))
 	// Error handing function decodes json
 	decode_func := fn (json_address string) mystruct.Address {
 		return json.decode(mystruct.Address, json_address) or {
@@ -241,39 +247,65 @@ fn main() {
 	println('')
 
 	// Create random integer
-	println("<< Random integer >>")
-	create_random_number := fn() int {
+	println('<< Random integer >>')
+	create_random_number := fn () int {
 		rand.seed(seed.time_seed_array(2))
-		return rand.intn(1000000000-1) or { 0 } + 1
+		return rand.intn(1000000000 - 1) or { 0 } + 1
 	}
 	println(create_random_number())
 	println('')
 
 	// Create random foundString
-	println("<< Random string >>")
-	create_random_string := fn() string {
-		seed := seed.time_seed_32().str()
-		sha_bytes := sha256.sum256(seed.bytes())
+	println('<< Random string >>')
+	create_random_string := fn () string {
+		seedstring := seed.time_seed_32().str()
+		sha_bytes := sha256.sum256(seedstring.bytes())
 		return hex.encode(sha_bytes)
 	}
 	println(create_random_string())
 	println('')
 
-
 	// DateTime format
-	println("<< Datetime >>")
+	println('<< Datetime >>')
 	now := time.now()
-	println("format_plane    : ${now}")
-	println("format_ss_micro : ${now.format_ss_micro()}")
-	custom_format_time := now.get_fmt_str(time.FormatDelimiter.slash, time.FormatTime.hhmmss24_milli, time.FormatDate.mmddyyyy)
-	println('format_custom   : ${custom_format_time}')
+	println('format_plane    : $now')
+	println('format_ss_micro : $now.format_ss_micro()')
+	custom_format_time := now.get_fmt_str(time.FormatDelimiter.slash, time.FormatTime.hhmmss24_milli,
+		time.FormatDate.mmddyyyy)
+	println('format_custom   : $custom_format_time')
 	println('')
 
-	// Replace
-	println("<< Replace string >>")
-	mozi := "aaabbbaaaccc"
-	println('original: ${mozi}')
-	println('replace : ${mozi.replace("aaa", "!!!")}')
+	// Replace & Regex
+	println('<< Replace string >>')
+	println('// string.replace()')
+	mozi := 'aaabbbaaaccc'
+	println('original : $mozi')
+	println('replace  : ${mozi.replace('aaa', '!!!')}')
+
+	println('// re.replace()')
+	txt := 'Today it is a good day.'
+	mut re := regex.regex_opt(r'(a\w)[ ,.]') ?
+	replaced_txt := re.replace(txt, r'__[\0]__')
+	println('original : $txt')
+	println('replace  : $replaced_txt')
+
+	println('// re.replace()')
+	txt2 := '1 22 333 4444 5555 666 77 8'
+	mut re2 := regex.regex_opt(r'\s[0-9]{3}\s') ?
+	matched_txts := re2.find_all_str(txt2)
+	println('original : $txt2')
+	println('matches  : $matched_txts')
 	println('')
+
+  // Execute os commands
+	println('<< Execute os commands >>')
+	ls_result := os.execute('ls -al')
+	println('ls_result.exit_code:\n$ls_result.exit_code\n')
+	println('ls_result.output:\n$ls_result.output')
+	println('os.hostname(): ${os.hostname()}')
+	println('os.temp_dir(): ${os.temp_dir()}')
+
+  temp_dir_path := os.temp_dir() + os.path_separator + create_random_string()
+	println('temp_dir_path: $temp_dir_path')
 
 }
