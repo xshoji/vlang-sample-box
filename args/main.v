@@ -15,7 +15,7 @@ fn main() {
 	// はOKやけど
 	// v run main.v --int_val 1 --bool_val aaa bbb（aaa, bbbで自由引数２個）
 	// はエラー、みたいなことができる。
-	fp.limit_free_args(0, 1) ?
+	fp.limit_free_args(0, 2) ?
 	r_int_val := fp.int('r_int_val', `a`, 0, '[required] some int with `-a` as an abbreviation.')
 	r_str_val := fp.string('r_str_val', `b`, '', '[required] some text with `-b` as an abbreviation')
 	int_val := fp.int('int_val', `i`, 0o123, 'some int to define 0o123 is its default val')
@@ -32,11 +32,11 @@ fn main() {
 	// }
 
 	// Valid required options.
-	if r_int_val == 0 || r_str_val == ''{
+	if r_int_val == 0 || r_str_val == '' {
 		eprintln(error('\nERROR: Not enough required parameters.\n'))
 		println(fp.usage())
 		return
-	} 
+	}
 
 	// finalize() は、残りのすべての引数 (オプション以外) を返します。
 	// すべての引数が定義された後に、.finalize()を呼び出します。
