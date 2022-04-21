@@ -31,7 +31,7 @@ fn main() {
 	// 	return
 	// }
 
-  // Valid required options.
+	// Valid required options.
 	if r_int_val == 0 || r_str_val == ''{
 		eprintln(error('\nERROR: Not enough required parameters.\n'))
 		println(fp.usage())
@@ -39,10 +39,10 @@ fn main() {
 	} 
 
 	// finalize() は、残りのすべての引数 (オプション以外) を返します。
-  // すべての引数が定義された後に、.finalize()を呼び出します。
-  // 残りの引数は、コマンドラインで定義されたのと同じ順序で返されます。
+	// すべての引数が定義された後に、.finalize()を呼び出します。
+	// 残りの引数は、コマンドラインで定義されたのと同じ順序で返されます。
 	// 追加のフラグが見つかった場合、すなわち
-  // (--' または '-' で始まるもの) が見つかると、エラーを返します。
+	// (--' または '-' で始まるもの) が見つかると、エラーを返します。
 	additional_args := fp.finalize() or {
 		eprintln(err)
 		println(fp.usage())
