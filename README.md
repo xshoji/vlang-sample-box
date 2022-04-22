@@ -36,6 +36,9 @@ $ v run main.v
 > builtin ｜ vdoc  
 > https://modules.vlang.io/index.html  
 
+> vlang/coreutils  
+> https://github.com/vlang/coreutils  
+
 
 # Interested issues
 

@@ -13,6 +13,11 @@ import regex
 import os
 // import x.json2
 
+const (
+	const_string_value = 'const_string_value'
+	const_int_value = 111
+)
+
 interface Any {}
 
 fn new_any(val Any) Any {
