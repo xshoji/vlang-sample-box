@@ -41,12 +41,11 @@ fn read_osfile(mut file os.File) ?string {
 	defer {
 		file.close()
 	}
-	config := &io.ReadAllConfig{
-		reader: file
-	}
 	// > io ｜ vdoc  
 	// > https://modules.vlang.io/io.html#read_all  
-	return io.read_all(config) or {
+	// > v/request.v at master · vlang/v  
+	// > https://github.com/vlang/v/blob/master/vlib/net/http/request.v#L165  
+	return io.read_all(reader: file) or {
 		eprintln(err)
 		exit(1)
 	}.bytestr()
