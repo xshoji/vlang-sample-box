@@ -141,6 +141,8 @@ fn main() {
 	println('map_values_string_string[\'xxx\']: ${map_values_string_string['xxx']}')
 	map_values_xxx := map_values_string_string['xxx'] or { 'no data' }
 	println('map_values_string_string[\'xxx\'] or { ... }: $map_values_xxx')
+	println('\'aaa\' in map_values_string_string: ${'aaa' in map_values_string_string}')
+	println('\'ddd\' in map_values_string_string: ${'ddd' in map_values_string_string}')
 	println('type of map_values_string_string: ${typeof(map_values_string_string).name}')
 	map_values_string_string['ddd'] = 'ddd'
 	println('add ddd:ddd to map_values_string_string: $map_values_string_string')
