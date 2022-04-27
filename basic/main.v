@@ -78,6 +78,17 @@ fn main() {
 	println('value_int pointer: $value_int_pointer')
 	println('value_int pointers value: ${*value_int_pointer}')
 	println('')
+	println('<< Rewrite pointer\'s value >>')
+	mut string_value := 'aaa'
+	println('mut string_value: $string_value')
+	mut string_pointer := &string_value
+	println('mut string_pointer: $string_pointer')
+	unsafe {
+		*string_pointer = 'bbb'
+	}
+	println('mut string_value: $string_value')
+	println('')
+
 
 	// array
 	mut value_int_array := [1, 2, 3]

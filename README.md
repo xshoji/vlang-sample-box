@@ -39,6 +39,12 @@ $ v run main.v
 > vlang/coreutils  
 > https://github.com/vlang/coreutils  
 
+> The V Programming Language  
+> https://vlang.io/compare#go  
+
+> VLang for Automation Scripting  
+> https://www.linkedin.com/pulse/vlang-automation-scripting-jader-oliveira  
+
 
 # Interested issues
 
