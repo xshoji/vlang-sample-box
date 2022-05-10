@@ -264,6 +264,20 @@ fn main() {
 	println(address2)
 	println('')
 
+	// Closure
+	println('<< Closure >>')
+	mut main_scope_i := 0
+	println('[main] main_scope_i: $main_scope_i')
+	counter := fn [mut main_scope_i] () {
+		println('[counter] main_scope_i: $main_scope_i')
+		main_scope_i++
+	}
+	counter()
+	counter()
+	counter()
+	println('[main] main_scope_i: $main_scope_i')
+	println('')
+
 	// Create random integer
 	println('<< Random integer >>')
 	create_random_number := fn () int {
