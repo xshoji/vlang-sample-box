@@ -5,10 +5,6 @@ import flag
 import os
 import json
 
-const (
-	endpoint_prefix = 'vweb/api/v1'
-)
-
 struct App {
 	vweb.Context
 }
@@ -16,7 +12,7 @@ struct App {
 fn main() {
 	// Handle arguments
 	mut fp := flag.new_flag_parser(os.args)
-	port := fp.int('port', `p`, 8080, '[optional] port')
+	port := fp.int('port', `p`, 8080, '[optional] port (default: 8080)')
 	help := fp.bool('help', `h`, false, 'help')
 
 	// Valid required options.
@@ -25,14 +21,23 @@ fn main() {
 		return
 	}
 
-	println('vweb example')
+	// Start web application
+	println('vweb app example')
 	vweb.run(&App{}, port)
 }
 
 ['/get/:value'; get]
 pub fn (mut app App) get_endpoint(value string) vweb.Result {
+	query_string := json.encode(app.query)
 	return app.json(json.encode({
-		'endpointPrefix': endpoint_prefix
-		'value': value
+		'pathValue': value
+		'queryParameters': query_string
+	}))
+}
+
+['/post'; post]
+pub fn (mut app App) post_endpoint() vweb.Result {
+	return app.json(json.encode({
+		'requestBody': app.req.data
 	}))
 }
