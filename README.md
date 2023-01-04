@@ -51,8 +51,10 @@ v . -o /tmp/app
 > VLang for Automation Scripting  
 > https://www.linkedin.com/pulse/vlang-automation-scripting-jader-oliveira  
 
-
 # Interested issues
+
+> V 0.1.11 with cross compilation for Windows is out! · Issue #892 · vlang/v  
+> https://github.com/vlang/v/issues/892  
 
 > JSON serielization - way to represent null values · Issue #4478 · vlang/v  
 > https://github.com/vlang/v/issues/4478  
