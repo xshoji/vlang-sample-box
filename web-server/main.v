@@ -9,7 +9,7 @@ import time
 import term
 
 const (
-	// Log level (1:fatal, 2:error, 3:warn, 4:info, 5:debug) (default = 5:debug)
+	// Log level (1:fatal, 2:error, 3:warn, 4:info, 5:debug) (default = 5:debug) | e.g. export V_LOG_LEVEL=3
 	log_level = $env('V_LOG_LEVEL')
 )
 
