@@ -11,6 +11,7 @@ import crypto.sha256
 import encoding.hex
 import regex
 import os
+import basic.mystruct
 // import x.json2
 
 const (
@@ -163,7 +164,7 @@ fn main() {
 	// > passing int variable as "any" interface value causes error · Issue #13787 · vlang/v
 	// > https://github.com/vlang/v/issues/13787
 	mut map_values_string_any := map[string]Any{}
-	map_values_string_any['aaa'] = new_any(200)
+	map_values_string_any['aaa'] = new_any('200'.int())
 	map_values_string_any['bbb'] = new_any('bbb')
 	map_values_string_any['ccc'] = new_any(true)
 	map_values_string_any['ddd'] = new_any([1, 2, 3])
@@ -282,7 +283,7 @@ fn main() {
 	println('<< Random integer >>')
 	create_random_number := fn () int {
 		rand.seed(seed.time_seed_array(2))
-		return rand.intn(1000000000 - 1) or { 0 } + 1
+		return rand.intn(1000000000 - 1) + 1
 	}
 	println(create_random_number())
 	println('')
