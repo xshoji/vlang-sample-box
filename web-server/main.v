@@ -42,7 +42,11 @@ struct App {
 fn main() {
 	// Handle arguments
 	mut fp := flag.new_flag_parser(os.args)
-	fp.description('\n  This is web-server sample app.\n  Log level is specified as Environment variable e.g. export V_LOG_LEVEL=3\n  (1:fatal, 2:error, 3:warn, 4:info, 5:debug) (default = 5:debug)')
+	fp.description('
+  This is web-server sample app.
+  Log level is specified as Environment variable e.g. export V_LOG_LEVEL=3
+  (1:fatal, 2:error, 3:warn, 4:info, 5:debug) (default = 5:debug)')
+
 	port := fp.int('port', `p`, 8080, '[optional] port (default: 8080)')
 	help := fp.bool('help', `h`, false, 'help')
 
