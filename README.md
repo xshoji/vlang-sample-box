@@ -21,6 +21,12 @@ $ ./main
 
 # build and run
 $ v run main.v
+
+# compile ( and cross-compilation )
+v . -o /tmp/app
+# v . -o /tmp/app -os macos
+# v . -o /tmp/app -os linux
+# v . -o /tmp/app.exe -os windows
 ```
 
 # Concerns
