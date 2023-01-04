@@ -11,7 +11,6 @@ import crypto.sha256
 import encoding.hex
 import regex
 import os
-import basic.mystruct
 // import x.json2
 
 const (
