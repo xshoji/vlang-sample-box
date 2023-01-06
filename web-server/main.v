@@ -22,6 +22,7 @@ fn logging(level log.Level, value string) {
 		.warn { term.yellow('WARN ') }
 		.info { term.white('INFO ') }
 		.debug { term.blue('DEBUG') }
+		else { term.bg_yellow('UNKNOWN') }
 	}
 	// print to stdout
 	if int(level) <= log_level_local {
@@ -63,16 +64,15 @@ fn main() {
 
 ['/get/:value'; get]
 pub fn (mut app App) get_endpoint(value string) vweb.Result {
-	query_string := json.encode(app.query)
-	return app.json(json.encode({
+	return app.json({
 		'pathValue':       value
-		'queryParameters': query_string
-	}))
+		'queryParameters': app.query
+	})
 }
 
 ['/post'; post]
 pub fn (mut app App) post_endpoint() vweb.Result {
-	return app.json(json.encode({
+	return app.json({
 		'requestBody': app.req.data
-	}))
+	})
 }

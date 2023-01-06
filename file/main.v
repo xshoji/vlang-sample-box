@@ -11,13 +11,13 @@ fn generate_temp_file_path() string {
 	return temp_file_path
 }
 
-fn write_osfile(path string, text string) ? {
+fn write_osfile(path string, text string) ! {
 	println('<< write_osfile >>\npath:$path, text:$text')
-	mut file := os.create(path) ?
+	mut file := os.create(path) !
 	defer {
 		file.close()
 	}
-	written_bytes_int := file.write(text.bytes()) ?
+	written_bytes_int := file.write(text.bytes()) !
 	println('written_bytes_int: $written_bytes_int')
 }
 
@@ -40,8 +40,8 @@ fn read_osfile(mut file os.File) ?string {
 
 fn main() {
 	temp_file_path := generate_temp_file_path()
-	write_osfile(temp_file_path, 'aaa') ?
-	mut file := os.open(temp_file_path) ?
-	file_contents := read_osfile(mut file) ?
+	write_osfile(temp_file_path, 'aaa') !
+	mut file := os.open(temp_file_path) !
+	file_contents := read_osfile(mut file) or { "" }
 	println('file_contents: $file_contents')
 }

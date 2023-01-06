@@ -26,7 +26,7 @@ fn main() {
 	os.signal_opt(os.Signal.int, fn (s os.Signal) {
 		defer_func()
 		exit(1)
-	}) ?
+	}) !
 	// defer block
 	defer {
 		defer_func()

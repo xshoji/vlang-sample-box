@@ -3,8 +3,8 @@ module mystruct
 //------------------
 // User
 //------------------
-// > v/docs.md at master · vlang/v
-// > https://github.com/vlang/v/blob/master/doc/docs.md#manual-control-for-stack-and-heap
+// v/docs.md at master · vlang/v
+// https://github.com/vlang/v/blob/master/doc/docs.md#manual-control-for-stack-and-heap
 [heap]
 pub struct User {
 	// private immutable (default)
@@ -12,6 +12,8 @@ pub struct User {
 mut:
 	// private mutable
 	age     int
+    // structs-with-reference-fields - v/docs.md at master · vlang/v
+    // https://github.com/vlang/v/blob/master/doc/docs.md#structs-with-reference-fields
 	partner &User = 0
 pub:
 	// public immutable
@@ -28,10 +30,15 @@ pub fn (mut u User) set_partner(partner &User) {
 }
 
 pub fn (u User) get_partner() ?&User {
-	if u.partner == 0 {
-		return none
-	} else {
-		return u.partner
+	// Here the compiler check is suppressed by the unsafe block. 
+	// v/docs.md at master · vlang/v
+    // https://github.com/vlang/v/blob/master/doc/docs.md#:~:text=Here%20the%20compiler%20check%20is%20suppressed%20by%20the%20unsafe%20block.
+	unsafe {
+		if u.partner == 0 {
+			return none
+		} else {
+			return u.partner
+		}
 	}
 }
 
