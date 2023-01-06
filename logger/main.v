@@ -18,27 +18,26 @@ fn logging(level log.Level, value string) {
 		.warn { term.yellow('WARN ') }
 		.info { term.white('INFO ') }
 		.debug { term.blue('DEBUG') }
+		else { '' } // never come here 
 	}
 	// print to stdout
 	if int(level) <= log_level_local {
-		println('${time.now().format_ss_micro()} [$level_cli_text] $value')
+		println('${time.now().format_ss_micro()} [${level_cli_text}] ${value}')
 	}
 	// print to stderr
 	if int(level) <= int(log.Level.error) {
-		eprintln('${time.now().format_ss_micro()} [$level_cli_text] $value')
+		eprintln('${time.now().format_ss_micro()} [${level_cli_text}] ${value}')
 	}
 }
 
 // export V_LOG_LEVEL=3; v run main.v
 fn main() {
-	
 	// Custom logging function
 	logging(log.Level.fatal, 'fatal log.')
 	logging(log.Level.error, 'error log.')
 	logging(log.Level.warn, 'warn log.')
 	logging(log.Level.info, 'info log.')
 	logging(log.Level.debug, 'debug log.')
-
 
 	// log.Log pattern.
 	mut logger := &log.Log{
@@ -51,5 +50,4 @@ fn main() {
 	logger.warn('warn log.')
 	logger.error('error log.')
 	logger.fatal('fatal log.')
-	
 }

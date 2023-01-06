@@ -3,10 +3,10 @@ module main
 import vweb
 import flag
 import os
-import json
 import log
 import time
 import term
+import net.http
 
 const (
 	// Log level (1:fatal, 2:error, 3:warn, 4:info, 5:debug) (default = 5:debug) | e.g. export V_LOG_LEVEL=3
@@ -22,7 +22,7 @@ fn logging(level log.Level, value string) {
 		.warn { term.yellow('WARN ') }
 		.info { term.white('INFO ') }
 		.debug { term.blue('DEBUG') }
-		else { term.bg_yellow('UNKNOWN') }
+		else { '' } // never come here 
 	}
 	// print to stdout
 	if int(level) <= log_level_local {
@@ -62,17 +62,29 @@ fn main() {
 	vweb.run(&App{}, port)
 }
 
+struct GetResponse {
+	path_value string [required]
+	query_parameters map[string]string [required]
+}
+
 ['/get/:value'; get]
 pub fn (mut app App) get_endpoint(value string) vweb.Result {
-	return app.json({
-		'pathValue':       value
-		'queryParameters': app.query
+	return app.json_pretty(GetResponse{
+		path_value: value
+		query_parameters: app.query
 	})
+}
+
+
+struct PostResponse {
+	form_data map[string]string [required]
+	form_files map[string][]http.FileData [required]
 }
 
 ['/post'; post]
 pub fn (mut app App) post_endpoint() vweb.Result {
-	return app.json({
-		'requestBody': app.req.data
+	return app.json_pretty(PostResponse{
+		form_data:  app.form
+		form_files:  app.files
 	})
 }

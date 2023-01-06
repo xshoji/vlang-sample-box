@@ -9,7 +9,7 @@ fn main() {
 	fp.application('Input handling sample.')
 	fp.version('v0.0.1')
 	fp.description('\nExample 1: echo "aaa" |v run main.v\nExample 2: v run main.v /tmp/a.txt')
-	fp.limit_free_args(1, 2)
+	fp.limit_free_args(1, 2) !
 	args := fp.finalize() or {
 		eprintln(err)
 		println(fp.usage())
