@@ -23,6 +23,12 @@ pub mut:
 	// public mutable
 	// description ?string =? initializing 'byte *' (aka 'unsigned char *') with an expression of incompatible type 'Option_string' (aka 'struct Option_string'
 	description string
+	// anonymous-structs - v/docs.md at master · vlang/v
+	// https://github.com/vlang/v/blob/master/doc/docs.md#anonymous-structs
+	anonymous_struct struct {
+		string_value string
+		int_value int
+	}
 }
 
 pub fn (mut u User) set_partner(partner &User) {

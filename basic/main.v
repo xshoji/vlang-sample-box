@@ -11,7 +11,6 @@ import crypto.sha256
 import encoding.hex
 import regex
 import os
-// import x.json2
 
 const (
 	const_string_value = 'const_string_value'
@@ -236,7 +235,9 @@ fn main() {
 	println(partner_name2)
 	println('')
 
-	// << anonymous struct >> は検討中
+	// << anonymous struct >>
+	// anonymous-structs - v/docs.md at master · vlang/v
+	// https://github.com/vlang/v/blob/master/doc/docs.md#anonymous-structs
 
 	// Json handling
 	println('<< Json handling >>')
