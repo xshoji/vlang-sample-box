@@ -305,6 +305,8 @@ fn main() {
 	custom_format_time := now.get_fmt_str(time.FormatDelimiter.slash, time.FormatTime.hhmmss24_milli,
 		time.FormatDate.mmddyyyy)
 	println('format_custom   : ${custom_format_time}')
+	println('<< Add time >>')
+	println('add 1 hour   : ${now.add(1 * time.hour)}')
 	println('')
 
 	// Replace & Regex
