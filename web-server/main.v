@@ -22,21 +22,24 @@ fn logging(level log.Level, value string) {
 		.warn { term.yellow('WARN ') }
 		.info { term.white('INFO ') }
 		.debug { term.blue('DEBUG') }
-		else { '' } // never come here 
+		else { '' } // never come here
 	}
 	// print to stdout
 	if int(level) <= log_level_local {
-		println('${time.now().format_ss_micro()} [$level_cli_text] $value')
+		println('${time.now().format_ss_micro()} [${level_cli_text}] ${value}')
 	}
 	// print to stderr
 	if int(level) <= int(log.Level.error) {
-		eprintln('${time.now().format_ss_micro()} [$level_cli_text] $value')
+		eprintln('${time.now().format_ss_micro()} [${level_cli_text}] ${value}')
 	}
 }
 
-
+# v/vweb_example.v at master · vlang/v
+# https://github.com/vlang/v/blob/master/examples/vweb/vweb_example.v
 struct App {
 	vweb.Context
+mut:
+	global_map shared map[string]string
 }
 
 // export V_LOG_LEVEL=3; v run main.v -p 8888
@@ -63,8 +66,9 @@ fn main() {
 }
 
 struct GetResponse {
-	path_value string [required]
+	path_value       string            [required]
 	query_parameters map[string]string [required]
+	global_map       map[string]string
 }
 
 ['/get/:value'; get]
@@ -72,19 +76,26 @@ pub fn (mut app App) get_endpoint(value string) vweb.Result {
 	return app.json_pretty(GetResponse{
 		path_value: value
 		query_parameters: app.query
+		global_map: app.global_map
 	})
 }
 
-
 struct PostResponse {
-	form_data map[string]string [required]
+	form_data  map[string]string          [required]
 	form_files map[string][]http.FileData [required]
+	global_map map[string]string
 }
 
 ['/post'; post]
 pub fn (mut app App) post_endpoint() vweb.Result {
+	lock app.global_map {
+		for key, value in app.form {
+			app.global_map[key] = value
+		}
+	}
 	return app.json_pretty(PostResponse{
-		form_data:  app.form
-		form_files:  app.files
+		form_data: app.form
+		form_files: app.files
+		global_map: app.global_map
 	})
 }
