@@ -52,7 +52,6 @@ fn main() {
 	// > Golangでの文字列・数値変換 - 小野マトペの納豆ペペロンチーノ日記
 	// > http://matope.hatenablog.com/entry/2014/04/22/101127
 	println('<< Cast >>')
-	// FormatIntの第2引数は基数。2なら2進数、16なら16進数になる
 	println('value_int: ${value_int}    -> value_string: ${value_int.str()}')
 	println('value_int8: ${value_int8}   -> value_string: ${value_int8.str()}')
 	println('value_int8: ${value_int8}   -> value_string: ${i64(value_int8).str()}')
@@ -155,6 +154,8 @@ fn main() {
 	println('type of map_values_string_string: ${typeof(map_values_string_string).name}')
 	map_values_string_string['ddd'] = 'ddd'
 	println('add ddd:ddd to map_values_string_string: ${map_values_string_string}')
+	map_values_string_string.delete('aaa')
+	println('delete aaa:aaa on map_values_string_string: ${map_values_string_string}')
 	println('map_values_string_int: ${map_values_string_int}')
 	println('type of map_values_string_int: ${typeof(map_values_string_int).name}')
 	// 最新版でのみ対応されてる
