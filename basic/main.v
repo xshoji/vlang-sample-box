@@ -228,6 +228,7 @@ fn main() {
 	println(partner_name1)
 	user.set_partner(&mystruct.User{ name: 'yoko', id: 2222 })
 	println(user)
+	println(user.get_partner()?)
 	// user.get_partner() => &mystruct.User{name: 'yoko', id: 2222 } => 'yoko'
 	partner_name2 := user.get_partner() or { &mystruct.User{
 		name: 'hanako'

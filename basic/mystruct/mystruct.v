@@ -14,7 +14,7 @@ mut:
 	age     int
     // structs-with-reference-fields - v/docs.md at master · vlang/v
     // https://github.com/vlang/v/blob/master/doc/docs.md#structs-with-reference-fields
-	partner &User = 0
+	partner &User = unsafe { nil }
 pub:
 	// public immutable
 	name string [required]
