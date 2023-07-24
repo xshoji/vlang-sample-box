@@ -34,8 +34,8 @@ fn logging(level log.Level, value string) {
 	}
 }
 
-# v/vweb_example.v at master · vlang/v
-# https://github.com/vlang/v/blob/master/examples/vweb/vweb_example.v
+// v/vweb_example.v at master · vlang/v
+// https://github.com/vlang/v/blob/master/examples/vweb/vweb_example.v
 struct App {
 	vweb.Context
 mut:
