@@ -15,6 +15,13 @@ fn main() {
 		println(fp.usage())
 		return
 	}
+	// Validate input
+	is_not_stdin := os.stdin().tell() or { 0 } != 0
+	is_no_file_path := args.len == 1 || args[1] == '-'
+	if is_no_file_path && is_not_stdin {
+		println(fp.usage())
+		return
+	}
 
 	println('>> args:\n$args')
 	println('')
@@ -24,7 +31,7 @@ fn main() {
 }
 
 fn get_file(args []string) os.File {
-	if args.len == 1 || args[1] == '-' {
+	if args.len == 1 || args[1] == '-'{
 		return os.stdin()
 	} else {
 		file_path := args[1]
